@@ -26,38 +26,38 @@ extensions:
       timeout: 1800
       script: |-
         OS_BUILD_ENV_PULL_IMAGE=true OS_BUILD_ENV_PRESERVE=_output/local/bin/linux/amd64 hack/env make build
-    - type: "script"
-      title: "build service-catalog user-broker image"
-      repository: "service-catalog"
-      timeout: 1800
-      script: |-
-        REGISTRY=openshift/ make -f Makefile.sc user-broker-image
+    #- type: "script"
+      #title: "build service-catalog user-broker image"
+      #repository: "service-catalog"
+      #timeout: 1800
+      #script: |-
+        #REGISTRY=openshift/ make -f Makefile.sc user-broker-image
     - type: "script"
       title: "build Service Catalog binary"
       repository: "service-catalog"
       timeout: 1800
       script: |-
         hack/env make build
-    - type: "script"
-      title: "run Service Catalog unit tests"
-      repository: "service-catalog"
-      timeout: 1800
-      script: |-
-        # the preserve directory is not used here, so include a constant file to avoid copy failures
-        OS_BUILD_ENV_PRESERVE="Makefile" hack/env NO_DOCKER=1 make -f Makefile.sc test-unit
-    - type: "script"
-      title: "build Service Catalog integration test binary"
-      repository: "service-catalog"
-      timeout: 1800
-      script: |-
-        OS_BUILD_ENV_PRESERVE=integration.test hack/env NO_DOCKER=1 make -f Makefile.sc build-integration
-    - type: "script"
-      title: "Run Service Catalog integration tests"
-      repository: "service-catalog"
-      timeout: 2700
-      script: |-
-        sudo yum -y --disablerepo=* --enablerepo=oso-rhui-rhel-server-extras install etcd
-        ./integration.test -test.v -alsologtostderr -v 9
+    #- type: "script"
+      #title: "run Service Catalog unit tests"
+      #repository: "service-catalog"
+      #timeout: 1800
+      #script: |-
+        ## the preserve directory is not used here, so include a constant file to avoid copy failures
+        #OS_BUILD_ENV_PRESERVE="Makefile" hack/env NO_DOCKER=1 make -f Makefile.sc test-unit
+    #- type: "script"
+      #title: "build Service Catalog integration test binary"
+      #repository: "service-catalog"
+      #timeout: 1800
+      #script: |-
+        #OS_BUILD_ENV_PRESERVE=integration.test hack/env NO_DOCKER=1 make -f Makefile.sc build-integration
+    #- type: "script"
+      #title: "Run Service Catalog integration tests"
+      #repository: "service-catalog"
+      #timeout: 2700
+      #script: |-
+        #sudo yum -y --disablerepo=* --enablerepo=oso-rhui-rhel-server-extras install etcd
+        #./integration.test -test.v -alsologtostderr -v 9
     - type: "script"
       title: "build Service Catalog image"
       repository: "service-catalog"
@@ -71,13 +71,13 @@ extensions:
       timeout: 1800
       script: |-
         hack/build-local-images.py
-    - type: "script"
-      title: "build Service Catalog E2E test binary"
-      repository: "service-catalog"
-      timeout: 1800
-      script: |-
-        sudo chown $USER:$USER bin
-        OS_BUILD_ENV_PRESERVE=bin/ hack/env NO_DOCKER=1 make -f Makefile.sc bin/e2e.test
+    #- type: "script"
+      #title: "build Service Catalog E2E test binary"
+      #repository: "service-catalog"
+      #timeout: 1800
+      #script: |-
+        #sudo chown $USER:$USER bin
+        #OS_BUILD_ENV_PRESERVE=bin/ hack/env NO_DOCKER=1 make -f Makefile.sc bin/e2e.test
     - type: "script"
       title: "start cluster with Service Catalog"
       repository: "origin"
@@ -90,13 +90,13 @@ extensions:
         fi
         ./_output/local/bin/linux/amd64/oc login -u system:admin
         ./_output/local/bin/linux/amd64/oc describe po --all-namespaces
-    - type: "script"
-      title: "Run Service Catalog E2E"
-      repository: "service-catalog"
-      timeout: 900
-      script: |-
-        export KUBECONFIG=~/.kube/config
-        SERVICECATALOGCONFIG=$KUBECONFIG bin/e2e.test -v 10 -alsologtostderr -broker-image openshift/user-broker:canary
+    #- type: "script"
+      #title: "Run Service Catalog E2E"
+      #repository: "service-catalog"
+      #timeout: 900
+      #script: |-
+        #export KUBECONFIG=~/.kube/config
+        #SERVICECATALOGCONFIG=$KUBECONFIG bin/e2e.test -v 10 -alsologtostderr -broker-image openshift/user-broker:canary
   post_actions:
     - type: "script"
       title: "grab container logs"
